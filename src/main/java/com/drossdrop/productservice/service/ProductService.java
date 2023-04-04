@@ -35,6 +35,12 @@ public class ProductService {
         return products.stream().map(this::mapToProductResponse).toList();
     }
 
+    // create function to get product by id and return product response object
+    public ProductResponse getProductById(String id) {
+        Product product = productRepository.findById(id).orElseThrow();
+        return mapToProductResponse(product);
+    }
+
     private ProductResponse mapToProductResponse(Product product) {
         return ProductResponse.builder()
                 .id(product.getId())
