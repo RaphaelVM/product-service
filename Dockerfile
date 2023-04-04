@@ -1,4 +1,4 @@
-FROM gradle:jdk17-alpine as build
+FROM eclipse-temurin:17-jdk-alpine as build
 WORKDIR /workspace/app
 
 COPY mvnw .
@@ -17,10 +17,3 @@ COPY --from=build ${DEPENDENCY}/META-INF /app/META-INF
 COPY --from=build ${DEPENDENCY}/BOOT-INF/classes /app
 EXPOSE 8080
 ENTRYPOINT ["java","-cp","app:app/lib/*","com.drossdrop.productservice.ProductServiceApplication"]
-
-# Actual container build
-#FROM eclipse-temurin:17-jdk-alpine
-#ARG JAR_FILE=build/libs/*.jar
-#COPY ${JAR_FILE} app.jar
-#EXPOSE 8080
-#ENTRYPOINT ["java","-jar","/app.jar"]
