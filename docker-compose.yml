@@ -4,12 +4,12 @@ services:
     build: .
     restart: always
     depends_on:
-      - mongo_product_db
+      - mongo-product-db
     networks:
       default:
         aliases:
           - rmqnet
-  mongo_product_db:
+  mongo-product-db:
     image: "mongo:latest"
     restart: always
     ports:
