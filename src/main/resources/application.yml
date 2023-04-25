@@ -4,6 +4,11 @@ server:
 spring:
   application:
     name: PRODUCT-SERVICE
+  data:
+    mongodb:
+      host: '${MONGO_HOST:localhost}'
+      port: 27017
+      database: '${MONGO_DB:product}'
 
 eureka:
   instance:
