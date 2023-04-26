@@ -8,7 +8,7 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app : product-service-app
+      app: product-service-app
   template:
     metadata:
       labels:
@@ -20,16 +20,27 @@ spec:
           imagePullPolicy: Always
           ports:
             - containerPort: 9002
+          env:
+            - name: MONGO_DB
+              valueFrom:
+                configMapKeyRef:
+                  name: productdb-cm
+                  key: database
+            - name: MONGO_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: productdb-cm 
+                  key: host
 
 ---
 
 kind: Service
 apiVersion: v1
 metadata:
-  name:  product-service-svc
+  name: product-service-svc
 spec:
   selector:
-    app:  product-service-app
+    app: product-service-app
   ports:
-    - port:  80
-      targetPort:  9002
+    - port: 80
+      targetPort: 9002
