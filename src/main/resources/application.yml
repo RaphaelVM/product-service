@@ -1,6 +1,9 @@
+### Global
 server:
   port: 9002
+### End Global
 
+### Kubernetes
 spring:
   application:
     name: PRODUCT-SERVICE
@@ -19,3 +22,20 @@ eureka:
     fetchRegistry: true
     serviceUrl:
       defaultZone: http://eureka-0.eureka.default.svc.cluster.local:8761/eureka
+### End Kubernetes
+
+### Local
+#spring:
+#  application:
+#    name: product-service
+#  data:
+#    mongodb:
+#      host: mongo-productdb
+#      port: 27017
+#      database: product
+#
+#eureka:
+#  client:
+#    serviceUrl:
+#      defaultZone: http://discovery-server:8761/eureka/
+### End Local
