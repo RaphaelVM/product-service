@@ -3,9 +3,11 @@ package com.drossdrop.productservice.service;
 import com.drossdrop.productservice.dto.ProductRequest;
 import com.drossdrop.productservice.dto.ProductResponse;
 import com.drossdrop.productservice.model.Product;
+import com.drossdrop.productservice.rabbitmq.RabbitMQProducer;
 import com.drossdrop.productservice.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,6 +16,9 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 public class ProductService {
+
+    @Autowired
+    private RabbitMQProducer rabbitMQProducer;
 
     private final ProductRepository productRepository;
 
@@ -27,6 +32,7 @@ public class ProductService {
 
         productRepository.save(product);
         log.info("Product is {} created", product.getId());
+        rabbitMQProducer.sendMessage("myQueue", product.toString());
     }
 
     public List<ProductResponse> getAllProducts() {

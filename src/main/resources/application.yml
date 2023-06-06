@@ -7,6 +7,11 @@ server:
 spring:
   application:
     name: PRODUCT-SERVICE
+  rabbitmq:
+    host: rabbitmq
+    port: 5672
+    username: guest
+    password: guest
   data:
     mongodb:
       host: '${MONGO_HOST:localhost}'
