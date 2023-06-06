@@ -28,6 +28,6 @@ public class RabbitMQProducer {
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
-        rabbitTemplate.convertAndSend("create-product-command", json);
+        rabbitTemplate.convertAndSend("createProductQueue", json);
     }
 }
