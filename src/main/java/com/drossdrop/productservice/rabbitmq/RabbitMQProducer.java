@@ -25,13 +25,13 @@ public class RabbitMQProducer {
 //    }
 
     public void sendProduct(ProductRabbitMQ product) {
-//        ObjectMapper objectMapper = new ObjectMapper();
-//        String json = null;
-//        try {
-//            json = objectMapper.writeValueAsString(product);
-//        } catch (JsonProcessingException e) {
-//            throw new RuntimeException(e);
-//        }
-        rabbitTemplate.convertAndSend(myQueue.getName(), product);
+        ObjectMapper objectMapper = new ObjectMapper();
+        String json = null;
+        try {
+            json = objectMapper.writeValueAsString(product);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+        rabbitTemplate.convertAndSend(myQueue.getName(), json);
     }
 }
