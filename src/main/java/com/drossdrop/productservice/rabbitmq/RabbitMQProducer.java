@@ -1,6 +1,8 @@
 package com.drossdrop.productservice.rabbitmq;
 
 import com.drossdrop.productservice.model.Product;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -19,6 +21,13 @@ public class RabbitMQProducer {
     }
 
     public void sendCreateProductCommand(Product product) {
-        rabbitTemplate.convertAndSend("create-product-command", product);
+        ObjectMapper objectMapper = new ObjectMapper();
+        String json = null;
+        try {
+            json = objectMapper.writeValueAsString(product);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+        rabbitTemplate.convertAndSend("create-product-command", json);
     }
 }
