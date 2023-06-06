@@ -32,7 +32,8 @@ public class ProductService {
 
         productRepository.save(product);
         log.info("Product is {} created", product.getId());
-        rabbitMQProducer.sendMessage("myQueue", product.toString());
+//        rabbitMQProducer.sendMessage("myQueue", product.toString());
+        rabbitMQProducer.sendCreateProductCommand(product);
     }
 
     public List<ProductResponse> getAllProducts() {
