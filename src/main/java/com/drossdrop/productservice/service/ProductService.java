@@ -1,5 +1,6 @@
 package com.drossdrop.productservice.service;
 
+import com.drossdrop.productservice.dto.ProductRabbitMQ;
 import com.drossdrop.productservice.dto.ProductRequest;
 import com.drossdrop.productservice.dto.ProductResponse;
 import com.drossdrop.productservice.model.Product;
@@ -32,8 +33,9 @@ public class ProductService {
 
         productRepository.save(product);
         log.info("Product is {} created", product.getId());
-//        rabbitMQProducer.sendMessage("myQueue", product.toString());
-        rabbitMQProducer.sendProduct(product);
+
+        ProductRabbitMQ mappedProduct = mapToProductRabbitMQ(product);
+        rabbitMQProducer.sendProduct(mappedProduct);
     }
 
     public List<ProductResponse> getAllProducts() {
@@ -53,6 +55,15 @@ public class ProductService {
                 .id(product.getId())
                 .name(product.getName())
                 .description(product.getDescription())
+                .price(product.getPrice())
+                .stock(product.getStock())
+                .build();
+    }
+
+    private ProductRabbitMQ mapToProductRabbitMQ(Product product) {
+        return ProductRabbitMQ.builder()
+                .id(product.getId())
+                .name(product.getName())
                 .price(product.getPrice())
                 .stock(product.getStock())
                 .build();

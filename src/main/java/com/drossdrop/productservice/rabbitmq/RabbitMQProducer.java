@@ -1,6 +1,6 @@
 package com.drossdrop.productservice.rabbitmq;
 
-import com.drossdrop.productservice.model.Product;
+import com.drossdrop.productservice.dto.ProductRabbitMQ;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.amqp.core.Queue;
@@ -24,14 +24,14 @@ public class RabbitMQProducer {
 //        rabbitTemplate.convertAndSend(queueName, message);
 //    }
 
-    public void sendProduct(Product product) {
-        ObjectMapper objectMapper = new ObjectMapper();
-        String json = null;
-        try {
-            json = objectMapper.writeValueAsString(product);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
-        rabbitTemplate.convertAndSend(myQueue.getName(), json);
+    public void sendProduct(ProductRabbitMQ product) {
+//        ObjectMapper objectMapper = new ObjectMapper();
+//        String json = null;
+//        try {
+//            json = objectMapper.writeValueAsString(product);
+//        } catch (JsonProcessingException e) {
+//            throw new RuntimeException(e);
+//        }
+        rabbitTemplate.convertAndSend(myQueue.getName(), product);
     }
 }
