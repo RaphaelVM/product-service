@@ -8,9 +8,6 @@ import io.jsonwebtoken.security.Keys;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.List;
 
 @Component
 public class JwtUtil {
@@ -24,20 +21,6 @@ public class JwtUtil {
         Claims claims = decodeJWT(token);
         claims.get("roles");
         return claims.get("roles").toString();
-        // Decode the token if needed
-//        String decodedToken = decodeToken(token);
-//
-//        // Process the token, validate, or extract information
-//        Claims claims = Jwts.parserBuilder()
-//                .setSigningKey(getSignKey())
-//                .build()
-//                .parseClaimsJws(decodedToken)
-//                .getBody();
-//
-//        // Access the "roles" claim
-//
-//        // Continue with your business logic
-//        return (List<String>) claims.get("roles");
     }
 
     public Claims decodeJWT(String token) {
