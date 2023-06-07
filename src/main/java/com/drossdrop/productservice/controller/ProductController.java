@@ -34,9 +34,12 @@ public class ProductController {
     public List<ProductResponse> getAllProducts(HttpServletRequest request, @RequestHeader("Authorization") String authorizationHeader) {
         String jwtToken = authorizationHeader.substring(7);
         // function to get claims from jwt token
-        String test = jwtUtil.getRolesFromJWT(jwtToken);
-        System.out.println(test);
-        return productService.getAllProducts();
+        String role = jwtUtil.getRolesFromJWT(jwtToken);
+        if(role.contains("Admin")) {
+            return productService.getAllProducts();
+        } else {
+            throw new RuntimeException("Invalid access");
+        }
     }
 
     @GetMapping("/{id}")
