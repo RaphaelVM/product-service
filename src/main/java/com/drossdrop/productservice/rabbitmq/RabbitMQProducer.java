@@ -30,13 +30,6 @@ public class RabbitMQProducer {
 
     public void sendProduct(ProductRabbitMQ product) {
         LOGGER.info(String.format("Sending message...-> %s", product.toString()));
-//        ObjectMapper objectMapper = new ObjectMapper();
-//        String json = null;
-//        try {
-//            json = objectMapper.writeValueAsString(product);
-//        } catch (JsonProcessingException e) {
-//            throw new RuntimeException(e);
-//        }
         rabbitTemplate.convertAndSend("product_exchange", "product_routing_json_key", product);
     }
 }
