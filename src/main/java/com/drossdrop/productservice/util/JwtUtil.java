@@ -40,9 +40,9 @@ public class JwtUtil {
 //        return (List<String>) claims.get("roles");
     }
 
-    public static Claims decodeJWT(String token) {
+    public Claims decodeJWT(String token) {
         Jws<Claims> parsedToken = Jwts.parserBuilder()
-                .setSigningKey(Keys.hmacShaKeyFor(SECRET.getBytes()))
+                .setSigningKey(getSignKey())
                 .build()
                 .parseClaimsJws(token);
 
@@ -51,10 +51,6 @@ public class JwtUtil {
 
     public void validateToken(final String token) {
         Jwts.parserBuilder().setSigningKey(getSignKey()).build().parseClaimsJws(token);
-    }
-
-    private String decodeToken(String token) {
-        return new String(Base64.getDecoder().decode(token));
     }
 
     private Key getSignKey() {
