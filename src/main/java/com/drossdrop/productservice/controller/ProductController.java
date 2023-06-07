@@ -38,7 +38,8 @@ public class ProductController {
         if(role.contains("Admin")) {
             return productService.getAllProducts();
         } else {
-            throw new RuntimeException("Invalid access");
+            return new ArrayList<>(Integer.parseInt("You are not authorized to view this page"));
+
         }
     }
 
