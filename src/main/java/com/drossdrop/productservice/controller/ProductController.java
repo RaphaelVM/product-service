@@ -4,13 +4,11 @@ import com.drossdrop.productservice.dto.ProductRequest;
 import com.drossdrop.productservice.dto.ProductResponse;
 import com.drossdrop.productservice.service.ProductService;
 import com.drossdrop.productservice.util.JwtUtil;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -25,22 +23,23 @@ public class ProductController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void createProduct(@RequestBody ProductRequest productRequest) {
-        productService.createProduct(productRequest);
+    public HttpStatus createProduct(@RequestBody ProductRequest productRequest, @RequestHeader("Authorization") String authorizationHeader) {
+        String jwtToken = authorizationHeader.substring(7);
+        // function to get claims from jwt token
+        String role = jwtUtil.getRolesFromJWT(jwtToken);
+
+        if (role.contains("Admin")) {
+            productService.createProduct(productRequest);
+        } else {
+            return HttpStatus.FORBIDDEN;
+        }
+        return null;
     }
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<ProductResponse> getAllProducts(HttpServletRequest request, @RequestHeader("Authorization") String authorizationHeader) {
-        String jwtToken = authorizationHeader.substring(7);
-        // function to get claims from jwt token
-        String role = jwtUtil.getRolesFromJWT(jwtToken);
-        if(role.contains("Admin")) {
-            return productService.getAllProducts();
-        } else {
-            return new ArrayList<>(Integer.parseInt("You are not authorized to view this page"));
-
-        }
+    public List<ProductResponse> getAllProducts() {
+        return productService.getAllProducts();
     }
 
     @GetMapping("/{id}")
