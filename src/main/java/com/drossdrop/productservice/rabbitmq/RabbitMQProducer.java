@@ -37,6 +37,6 @@ public class RabbitMQProducer {
 //        } catch (JsonProcessingException e) {
 //            throw new RuntimeException(e);
 //        }
-        rabbitTemplate.convertAndSend("product_json", "product_routing_json_key", product);
+        rabbitTemplate.convertAndSend("product_exchange", "product_routing_json_key", product);
     }
 }
