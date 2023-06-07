@@ -19,22 +19,34 @@ public class JwtUtil {
     public static final String SECRET = "5367566B59703373367639792F423F4528482B4D6251655468576D5A71347437";
 
 
-    public List<String> getRolesFromJWT(String token) {
+    public String getRolesFromJWT(String token) {
 
+        Claims claims = decodeJWT(token);
+        claims.get("roles");
+        return (String) claims.get("roles");
         // Decode the token if needed
-        String decodedToken = decodeToken(token);
+//        String decodedToken = decodeToken(token);
+//
+//        // Process the token, validate, or extract information
+//        Claims claims = Jwts.parserBuilder()
+//                .setSigningKey(getSignKey())
+//                .build()
+//                .parseClaimsJws(decodedToken)
+//                .getBody();
+//
+//        // Access the "roles" claim
+//
+//        // Continue with your business logic
+//        return (List<String>) claims.get("roles");
+    }
 
-        // Process the token, validate, or extract information
-        Claims claims = Jwts.parserBuilder()
-                .setSigningKey(getSignKey())
+    public static Claims decodeJWT(String token) {
+        Jws<Claims> parsedToken = Jwts.parserBuilder()
+                .setSigningKey(Keys.hmacShaKeyFor(SECRET.getBytes()))
                 .build()
-                .parseClaimsJws(decodedToken)
-                .getBody();
+                .parseClaimsJws(token);
 
-        // Access the "roles" claim
-
-        // Continue with your business logic
-        return (List<String>) claims.get("roles");
+        return parsedToken.getBody();
     }
 
     public void validateToken(final String token) {
