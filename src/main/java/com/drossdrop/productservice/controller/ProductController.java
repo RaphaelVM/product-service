@@ -31,9 +31,9 @@ public class ProductController {
 
         if (role.contains("Admin")) {
             productService.createProduct(productRequest);
-        } else {
-            ResponseEntity.status(HttpStatus.FORBIDDEN).body("User is not authorized to create product");
+            ResponseEntity.status(HttpStatus.CREATED).body("Product is created");
         }
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body("User is not authorized to create product");
     }
 
     @GetMapping
