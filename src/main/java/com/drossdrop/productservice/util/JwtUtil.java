@@ -23,7 +23,7 @@ public class JwtUtil {
 
         Claims claims = decodeJWT(token);
         claims.get("roles");
-        return (String) claims.get("roles");
+        return claims.get("roles").toString();
         // Decode the token if needed
 //        String decodedToken = decodeToken(token);
 //
