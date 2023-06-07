@@ -7,6 +7,7 @@ import com.drossdrop.productservice.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,7 +24,7 @@ public class ProductController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public HttpStatus createProduct(@RequestBody ProductRequest productRequest, @RequestHeader("Authorization") String authorizationHeader) {
+    public ResponseEntity<String> createProduct(@RequestBody ProductRequest productRequest, @RequestHeader("Authorization") String authorizationHeader) {
         String jwtToken = authorizationHeader.substring(7);
         // function to get claims from jwt token
         String role = jwtUtil.getRolesFromJWT(jwtToken);
@@ -31,9 +32,8 @@ public class ProductController {
         if (role.contains("Admin")) {
             productService.createProduct(productRequest);
         } else {
-            return HttpStatus.FORBIDDEN;
+            ResponseEntity.status(HttpStatus.FORBIDDEN).body("User is not authorized to create product");
         }
-        return null;
     }
 
     @GetMapping
