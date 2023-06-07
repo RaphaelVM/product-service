@@ -8,6 +8,7 @@ import io.jsonwebtoken.security.Keys;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
+import java.util.ArrayList;
 
 @Component
 public class JwtUtil {
@@ -22,9 +23,12 @@ public class JwtUtil {
         return jws.getBody();
     }
 
-    public String getRoleFromClaims(String token) {
+    public ArrayList<String> getRoleFromClaims(String token) {
         Claims claims = extractClaims(token);
-        return claims.get("roles", String.class);
+        String role = claims.get("roles", String.class);
+        return new ArrayList<String>() {{
+            add(role);
+        }};
     }
 
     public void validateToken(final String token) {
