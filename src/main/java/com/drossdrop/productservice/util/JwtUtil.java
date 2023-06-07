@@ -34,8 +34,7 @@ public class JwtUtil {
         // Access the "roles" claim
 
         // Continue with your business logic
-        List<String> roles = (List<String>) claims.get("roles");
-        return roles;
+        return (List<String>) claims.get("roles");
     }
 
     public void validateToken(final String token) {

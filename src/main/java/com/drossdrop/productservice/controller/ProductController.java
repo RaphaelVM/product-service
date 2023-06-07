@@ -34,7 +34,7 @@ public class ProductController {
     public List<ProductResponse> getAllProducts(HttpServletRequest request, @RequestHeader("Authorization") String authorizationHeader) {
         String jwtToken = authorizationHeader.substring(7);
         // function to get claims from jwt token
-        ArrayList<String> test = jwtUtil.getRoleFromClaims(jwtToken);
+        List<String> test = jwtUtil.getRolesFromJWT(jwtToken);
         System.out.println(test);
         return productService.getAllProducts();
     }
